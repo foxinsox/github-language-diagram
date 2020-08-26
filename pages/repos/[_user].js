@@ -12,7 +12,7 @@ import styles from '../../styles/Diagram.module.css';
 const octokit = new Octokit();
 
 /** For mocking purposes and in order to save API calls */
-const mockAPICall = true;
+const mockAPICall = false;
 
 function Repos({ _user }) {
     const [data, setData] = React.useState(null);
