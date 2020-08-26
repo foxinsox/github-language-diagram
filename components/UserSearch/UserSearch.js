@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 import React from 'react';
-import axios from 'axios';
 import { Octokit } from '@octokit/rest';
 import { Container, Card, Dimmer, Loader, Segment } from 'semantic-ui-react';
 
@@ -13,7 +12,7 @@ const octokit = new Octokit();
 
 function UserSearch() {
     const [searching, setSearching] = React.useState(null);
-    const [results, setResults] = React.useState([]);
+    const [results, setResults] = React.useState(null);
     const [query, setQuery] = React.useState(null);
     const [page, setPage] = React.useState(null);
 
@@ -68,22 +67,27 @@ function UserSearch() {
     return (
         <>
             <Container textAlign="center">
+                <h3>Select a Github User or Organization</h3>
                 <UserSearchbar setQuery={setQuery} applySearch={applySearch} />
-                <Segment>
-                    <Dimmer active={searching}>
-                        <Loader>Loading</Loader>
-                    </Dimmer>
-                    {results.items && <Card.Group>{mapResultsToCards()}</Card.Group>}
-                    {results.total_count > itemsPerPage ? (
-                        <UserPagination
-                            currentPage={page}
-                            totalPages={Math.ceil(results.total_count / itemsPerPage)}
-                            setPage={setPage}
-                        />
-                    ) : (
-                        <></>
-                    )}
-                </Segment>
+                {results && (
+                    <Segment>
+                        <Dimmer active={searching} inverted>
+                            <Loader>Loading</Loader>
+                        </Dimmer>
+                        {results.items && (
+                            <Card.Group itemsPerRow="6">{mapResultsToCards()}</Card.Group>
+                        )}
+                        {results.total_count > itemsPerPage ? (
+                            <UserPagination
+                                currentPage={page}
+                                totalPages={Math.ceil(results.total_count / itemsPerPage)}
+                                setPage={setPage}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                    </Segment>
+                )}
             </Container>
         </>
     );

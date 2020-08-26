@@ -3,12 +3,16 @@ import React from 'react';
 import { Octokit } from '@octokit/rest';
 import mockData from '../../repos_mockData.json';
 import { ResponsivePie } from '@nivo/pie';
+import { Dimmer, Loader } from 'semantic-ui-react';
+import Link from 'next/link';
+
+import styles from '../../styles/Diagram.module.css';
 
 const octokit = new Octokit();
 
 function Repos({ _user }) {
     const [data, setData] = React.useState(null);
-    const [processStage, setProcessStage] = React.useState({ text: 'listing repositories...' });
+    const [progress, setProgress] = React.useState({ text: 'listing repositories...' });
     const [rendering, setRendering] = React.useState(true);
 
     function hasContributions(repo) {
@@ -38,7 +42,7 @@ function Repos({ _user }) {
         const languageDataTotal = new Map();
         const contributedRepos = repos.filter((repo) => hasContributions(repo));
         contributedRepos.forEach((repo) => {
-            setProcessStage({ text: `retrieving language info for ${repo.name}` });
+            setProgress({ text: `retrieving language info for ${repo.name}` });
             const language = repo.language || 'unknown';
             let size = parseInt(repo.size);
             if (language in languageDataTotal.keys) {
@@ -55,13 +59,10 @@ function Repos({ _user }) {
     React.useEffect(() => {
         const fetchRepos = async () => {
             try {
-                /*
                 const response = await octokit.request(`GET /users/${_user}/repos`);
-                console.log(response.data);
-                setProcessStage({ text: 'retrieving language info for each repository...' });
+                setProgress({ text: 'retrieving language info for each repository...' });
                 prepareLanguageData(response.data);
-                */
-                prepareLanguageData(mockData);
+                // prepareLanguageData(mockData);
             } catch (error) {
                 alert(err);
                 setRendering(false);
@@ -119,8 +120,23 @@ function Repos({ _user }) {
     }
 
     return (
-        <div className="diagramPage" style={{ height: 100 + 'vh' }}>
-            {rendering ? <p>{processStage.text}</p> : renderDiagram()}
+        <div className={styles.container}>
+            <Dimmer active={rendering} inverted>
+                <Loader>Rendering</Loader>
+            </Dimmer>
+            <div cassName={styles.topbar}>
+                <Link href="/"> 
+                    <a>back</a>
+                </Link>
+                <h3>Language Diagram for {_user}</h3>
+            </div>
+            <div className={styles.diagram}>
+                {rendering ? (
+                    <div className={styles.progressText}>{progress.text}</div>
+                ) : (
+                    renderDiagram()
+                )}
+            </div>
         </div>
     );
 }
