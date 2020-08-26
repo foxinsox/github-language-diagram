@@ -6,7 +6,7 @@ function UserCard({ avatarUrl, login, type }) {
     return (
       <Link href={`/repos/${login}`}>
         <Card>
-          <Image src={avatarUrl} wrapped ui={false} />
+          <Image src={avatarUrl} wrapped ui={false} alt={login} />
           <Card.Content>
             <Card.Header>{login}</Card.Header>
             <Card.Meta>{type}</Card.Meta>

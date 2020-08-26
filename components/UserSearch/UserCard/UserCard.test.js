@@ -27,8 +27,4 @@ describe('UserCard', () => {
         expect(type).toBeVisible;
         expect(image).toBeVisible;
     });
-
-    test('OnClick should route to diagram page',() => {
-        // TODO: implement
-    });
 });

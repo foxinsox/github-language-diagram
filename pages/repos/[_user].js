@@ -5,12 +5,14 @@ import { ResponsivePie } from '@nivo/pie';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import Link from 'next/link';
 
+import Diagram from '../../components/Diagram/Diagram';
+
 import styles from '../../styles/Diagram.module.css';
 
 const octokit = new Octokit();
 
 /** For mocking purposes and in order to save API calls */
-const mockAPICall = false;
+const mockAPICall = true;
 
 function Repos({ _user }) {
     const [data, setData] = React.useState(null);
@@ -78,70 +80,17 @@ function Repos({ _user }) {
         fetchRepos();
     }, []);
 
-    function renderDiagram() {
-        return (
-            <ResponsivePie
-                data={data}
-                margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
-                innerRadius={0.5}
-                padAngle={0.7}
-                cornerRadius={3}
-                colors={{ scheme: 'nivo' }}
-                borderWidth={1}
-                borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
-                radialLabelsSkipAngle={10}
-                radialLabelsTextXOffset={6}
-                radialLabelsTextColor="#333333"
-                radialLabelsLinkOffset={0}
-                radialLabelsLinkDiagonalLength={16}
-                radialLabelsLinkHorizontalLength={24}
-                radialLabelsLinkStrokeWidth={1}
-                radialLabelsLinkColor={{ from: 'color' }}
-                slicesLabelsSkipAngle={10}
-                slicesLabelsTextColor="#333333"
-                animate={true}
-                motionStiffness={90}
-                motionDamping={15}
-                legends={[
-                    {
-                        anchor: 'bottom',
-                        direction: 'row',
-                        translateY: 56,
-                        itemWidth: 100,
-                        itemHeight: 18,
-                        itemTextColor: '#999',
-                        symbolSize: 18,
-                        symbolShape: 'circle',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemTextColor: '#000'
-                                }
-                            }
-                        ]
-                    }
-                ]}
-            />
-        );
-    }
-
     return (
         <div className={styles.container}>
             <Dimmer active={rendering} inverted>
                 <Loader>Rendering</Loader>
             </Dimmer>
-            <div>
-                <Link href="/">
-                    <a>back</a>
-                </Link>
-                <h3>Language Diagram for {_user}</h3>
-            </div>
+            <DiagramHeading user={_user} />
             <div className={styles.diagram}>
                 {rendering ? (
                     <div className={styles.progressText}>{progress.text}</div>
                 ) : (
-                    renderDiagram()
+                    <Diagram data={data} />
                 )}
             </div>
         </div>

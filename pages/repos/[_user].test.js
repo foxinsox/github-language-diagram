@@ -7,16 +7,15 @@ import { Octokit } from '@octokit/rest';
 import { render } from '@testing-library/react';
 import nock from 'nock';
 
-import UserSearch from './UserSearch';
-import mockData from '../../users_mockData.json';
+import mockData from '../../repos_mockData.json';
 
-describe('UserSearch', () => {
-    test('should fetch users', async () => {
+describe('[_user].js', () => {
+    test('should fetch repos of user', async () => {
         const octokit = new Octokit();
         const scope = nock('https://api.github.com')
-            .get('/search/users?q=foxinsox')
+            .get('/users/foxinsox/repos')
             .reply(200, mockData);
-        await octokit.request('/search/users?q=foxinsox');
+        await octokit.request('/users/foxinsox/repos');
         scope.done();
     });
 });
