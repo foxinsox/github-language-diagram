@@ -4,14 +4,25 @@ import {
  Button, Card, Image, Dimmer, Loader, Segment 
 } from 'semantic-ui-react';
 
-function UserCard({ avatarUrl, login, type }) {
+function UserCard({
+ avatarUrl, login, type, key 
+}) {
     const [isHovering, setIsHovering] = React.useState(false);
+
+    function applyHoverStyle() {
+      let style = {};
+      if (isHovering) {
+        style = { backgroundColor: 'PaleGoldenRod', cursor: 'pointer' };
+      }
+      return style;
+    }
 
     return (
       <Card
         fluid
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
+        style={applyHoverStyle()}
       >
         {/* <Link href=""> */}
         <Card.Content>
