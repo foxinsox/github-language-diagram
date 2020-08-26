@@ -1,7 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import React from 'react';
 import { Octokit } from '@octokit/rest';
-import axios from 'axios';
 import mockData from '../../repos_mockData.json';
 import { ResponsivePie } from '@nivo/pie';
 
@@ -22,17 +21,17 @@ function Repos({ _user }) {
         return true;
     }
 
-    function calculatePercentage(languageData) {
-        let totalSize = 0;
-        for (const value of languageData.values()) {
-            totalSize += value;
-        }
-        function calculatePercentage(val, key, map) {
-            map.set(key, Math.round((val / totalSize) * 100));
-        }
-        languageData.forEach(calculatePercentage);
-        setRendering(false);
-        setData(languageData);
+    function mapToDiagramData(languageDataTotal) {
+        const diagramData = [];
+        languageDataTotal.forEach((value, key) => {
+            const section = {
+                id: String(key),
+                label: String(key),
+                value: parseInt(value)
+            };
+            diagramData.push(section);
+        });
+        return diagramData;
     }
 
     function prepareLanguageData(repos) {
@@ -47,8 +46,10 @@ function Repos({ _user }) {
             }
             languageDataTotal.set(language, size);
         });
-        const languageDataPercent = calculatePercentage(languageDataTotal);
-        console.log(languageDataPercent);
+
+        const diagramData = mapToDiagramData(languageDataTotal);
+        setData(diagramData);
+        setRendering(false);
     }
 
     React.useEffect(() => {
@@ -69,13 +70,56 @@ function Repos({ _user }) {
         fetchRepos();
     }, []);
 
-
     function renderDiagram() {
-        return <p>{data}</p>
+        return (
+            <ResponsivePie
+                data={data}
+                margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                innerRadius={0.5}
+                padAngle={0.7}
+                cornerRadius={3}
+                colors={{ scheme: 'nivo' }}
+                borderWidth={1}
+                borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
+                radialLabelsSkipAngle={10}
+                radialLabelsTextXOffset={6}
+                radialLabelsTextColor="#333333"
+                radialLabelsLinkOffset={0}
+                radialLabelsLinkDiagonalLength={16}
+                radialLabelsLinkHorizontalLength={24}
+                radialLabelsLinkStrokeWidth={1}
+                radialLabelsLinkColor={{ from: 'color' }}
+                slicesLabelsSkipAngle={10}
+                slicesLabelsTextColor="#333333"
+                animate={true}
+                motionStiffness={90}
+                motionDamping={15}
+                legends={[
+                    {
+                        anchor: 'bottom',
+                        direction: 'row',
+                        translateY: 56,
+                        itemWidth: 100,
+                        itemHeight: 18,
+                        itemTextColor: '#999',
+                        symbolSize: 18,
+                        symbolShape: 'circle',
+                        effects: [
+                            {
+                                on: 'hover',
+                                style: {
+                                    itemTextColor: '#000'
+                                }
+                            }
+                        ]
+                    }
+                ]}
+            />
+        );
     }
 
     return (
-        <div className="diagramPage">
+        <div className="diagramPage" style={{ height: 100 + 'vh' }}>
             {rendering ? <p>{processStage.text}</p> : renderDiagram()}
         </div>
     );
