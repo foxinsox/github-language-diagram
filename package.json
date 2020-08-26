@@ -11,6 +11,7 @@
         "test": "jest"
     },
     "dependencies": {
+        "@nivo/pie": "^0.62.0",
         "@octokit/rest": "^18.0.3",
         "axios": "^0.20.0",
         "next": "9.5.2",
