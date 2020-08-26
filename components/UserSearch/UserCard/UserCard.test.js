@@ -29,6 +29,6 @@ describe('UserCard', () => {
     });
 
     test('OnClick should route to diagram page',() => {
-        //TODO: implement
+        // TODO: implement
     });
 });

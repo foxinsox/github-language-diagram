@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React from 'react';
 import { Octokit } from '@octokit/rest';
 import mockData from '../../repos_mockData.json';
@@ -10,11 +9,15 @@ import styles from '../../styles/Diagram.module.css';
 
 const octokit = new Octokit();
 
+/** For mocking purposes and in order to save API calls */
+const mockAPICall = false;
+
 function Repos({ _user }) {
     const [data, setData] = React.useState(null);
     const [progress, setProgress] = React.useState({ text: 'listing repositories...' });
     const [rendering, setRendering] = React.useState(true);
 
+    /** Let's check if the repo has had any activity by user. Set to false if less than 30 sec between fork timestamp and last update timestamp. */ 
     function hasContributions(repo) {
         if (repo.fork) {
             const created = new Date(repo.created_at);
@@ -59,10 +62,14 @@ function Repos({ _user }) {
     React.useEffect(() => {
         const fetchRepos = async () => {
             try {
-                const response = await octokit.request(`GET /users/${_user}/repos`);
-                setProgress({ text: 'retrieving language info for each repository...' });
-                prepareLanguageData(response.data);
-                // prepareLanguageData(mockData);
+                if (mockAPICall) {
+                    setProgress({ text: 'retrieving language info for each repository...' });
+                    prepareLanguageData(mockData);
+                } else {
+                    const response = await octokit.request(`GET /users/${_user}/repos`);
+                    setProgress({ text: 'retrieving language info for each repository...' });
+                    prepareLanguageData(response.data);
+                }
             } catch (error) {
                 alert(err);
                 setRendering(false);
@@ -124,8 +131,8 @@ function Repos({ _user }) {
             <Dimmer active={rendering} inverted>
                 <Loader>Rendering</Loader>
             </Dimmer>
-            <div cassName={styles.topbar}>
-                <Link href="/"> 
+            <div>
+                <Link href="/">
                     <a>back</a>
                 </Link>
                 <h3>Language Diagram for {_user}</h3>
