@@ -17,7 +17,7 @@ describe('UserCard', () => {
         };
     });
 
-    test('should do something',() => {
+    test('Props should be visible', () => {
         const { getByText, getByAltText } = render(<UserCard {...expectedProps} />);
         const login = getByText(expectedProps.login);
         const type = getByText(expectedProps.type);
@@ -26,5 +26,9 @@ describe('UserCard', () => {
         expect(login).toBeVisible;
         expect(type).toBeVisible;
         expect(image).toBeVisible;
+    });
+
+    test('OnClick should route to diagram page',() => {
+        //TODO: implement
     });
 });
