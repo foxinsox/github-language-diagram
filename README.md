@@ -1,30 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Github Language Diagram
 
-## Getting Started
+## What it is
+* This is a little react app, build with next.js. It fetches data from the Github API.
 
-First, run the development server:
+## What it does
+1) The user can search for any github user or organization account.
+2) Once an account was selected, the app queries the main language information for the accounts first 100 repositories.
+3) Finally, the app draws a diagram based on the queried data. 
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Prerequisites:
+* Node.js with npm installed
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prepare this to run on your local machine:
+* clone this repository, then navigate into it
+* run `npm i` (only for the first time, this will install all dependencies)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Run the local server:
+* `npm run dev` then open [http://localhost:3000](http://localhost:3000)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Run tests:
+* For reasons of time only some basic tests have been implemented. You can run them with `npm run test`
