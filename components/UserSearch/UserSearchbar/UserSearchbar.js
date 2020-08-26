@@ -40,9 +40,14 @@ function UserSearchbar({ setQuery, applySearch }) {
     }
 
     return (
-      <Input type="text" placeholder="Search..." action>
+      <Input data-testid="searchbar" type="text" placeholder="Search..." action>
         <input onChange={(e) => searchSpace(e)} />
-        <Select compact options={options} defaultValue="any" onChange={setOption} />
+        <Select
+          compact
+          options={options}
+          defaultValue="any"
+          onChange={(e, { value }) => setOption(e, { value })}
+        />
         <Button type="submit" onClick={() => startSearch()} disabled={buttonDisabled}>
           Search
         </Button>

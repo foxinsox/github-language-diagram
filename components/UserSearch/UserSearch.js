@@ -9,14 +9,14 @@ import {
     Segment,
 } from 'semantic-ui-react';
 
-import UserSearchbar from './User/UserSearchbar';
-import UserCard from './User/UserCard';
-import UserPagination from './User/UserPagination';
+import UserSearchbar from './UserSearchbar/UserSearchbar';
+import UserCard from './UserCard/UserCard';
+import UserPagination from './UserPagination/UserPagination';
 
 const itemsPerPage = 24;
 const octokit = new Octokit();
 
-function Users() {
+function UserSearch() {
     const [searching, setSearching] = React.useState(null);
     const [results, setResults] = React.useState([]);
     const [query, setQuery] = React.useState(null);
@@ -31,7 +31,8 @@ function Users() {
     // }, [searching]);
 
     function mapResultsToCards() {
-        return results.items.map((result) => <UserCard result={result} />);
+        return results.items.map((result) => 
+          <UserCard avatarUrl={result.avatar_url} login={result.login} type={result.type} key={result.id}/>);
     }
 
     function applySearch() {
@@ -82,4 +83,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default UserSearch;

@@ -4,7 +4,7 @@ import {
  Button, Card, Image, Dimmer, Loader, Segment 
 } from 'semantic-ui-react';
 
-function UserCard({ result }) {
+function UserCard({ avatarUrl, login, type }) {
     const [isHovering, setIsHovering] = React.useState(false);
 
     return (
@@ -15,9 +15,9 @@ function UserCard({ result }) {
       >
         {/* <Link href=""> */}
         <Card.Content>
-          <Image floated="right" size="mini" src={result.avatar_url} />
-          <Card.Header>{result.login}</Card.Header>
-          <Card.Meta>{result.type}</Card.Meta>
+          <Image floated="right" size="mini" src={avatarUrl} alt={login} />
+          <Card.Header>{login}</Card.Header>
+          <Card.Meta>{type}</Card.Meta>
         </Card.Content>
         {/* </Link> */}
       </Card>
