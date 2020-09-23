@@ -6,6 +6,7 @@ import { Dimmer, Loader } from 'semantic-ui-react';
 import Link from 'next/link';
 
 import Diagram from '../../components/Diagram/Diagram';
+import DiagramHeading from '../../components/Diagram/DiagramHeading/DiagramHeading';
 
 import styles from '../../styles/Diagram.module.css';
 
@@ -19,7 +20,7 @@ function Repos({ _user }) {
     const [progress, setProgress] = React.useState({ text: 'listing repositories...' });
     const [rendering, setRendering] = React.useState(true);
 
-    /** Let's check if the repo has had any activity by user. Set to false if less than 30 sec between fork timestamp and last update timestamp. */ 
+    /** Let's check if the repo has had any activity by user. Set to false if less than 30 sec between fork timestamp and last update timestamp. */
     function hasContributions(repo) {
         if (repo.fork) {
             const created = new Date(repo.created_at);
