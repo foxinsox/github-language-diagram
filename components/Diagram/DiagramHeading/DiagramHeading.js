@@ -1,14 +1,14 @@
 import Link from 'next/link';
 
 function DiagramHeading({ user }) {
+  const heading = `language diagram for ${user}:`;
     return (
       <div>
         <Link href="/" className="backButton">
           <a>back</a>
         </Link>
         <h3>
-          Language Diagram for
-          {user}
+          {heading}
         </h3>
       </div>
     );
